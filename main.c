@@ -1,5 +1,8 @@
 #include "lexer.h"
+#include "parser.h"
 #include <stdio.h>
+
+void print_ast(AST* node);
 
 const char* token_to_string(TokenType type) {
     switch (type) {
@@ -29,15 +32,42 @@ int main() {
 
     printf("Enter expression: ");
     scanf("%[^\n]", input);
-    
-    init_lexer(input);
 
-    Token token;
-    do {
-        token = get_next_token();
-        printf("Token: %s, Value: %d\n", token_to_string(token.type),
-               token.value);
-    } while (token.type != TOKEN_EOF);
+    init_parser(input);
 
-    return 0;
+    AST* root = parse();
+
+    printf("Parsed AST: ");
+    print_ast(root);
+    printf("\n");
+}
+
+void print_ast(AST* node) {
+    if (!node)
+        return;
+
+    if (node->type == AST_NUMBER)
+        printf("%d", node->value);
+    else {
+        printf("(");
+        print_ast(node->left);
+
+        switch (node->type) {
+        case AST_ADD:
+            printf(" + ");
+            break;
+        case AST_SUBTRACT:
+            printf(" - ");
+            break;
+        case AST_MULTIPLY:
+            printf(" * ");
+            break;
+        case AST_DIVIDE:
+            printf(" / ");
+            break;
+        }
+
+        print_ast(node->right);
+        printf(")");
+    }
 }

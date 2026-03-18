@@ -78,7 +78,7 @@ Token get_next_token() {
         }
 
         printf("Error: Unknown character '%c'\n", current_char);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     return (Token){TOKEN_EOF, 0};
