@@ -1,3 +1,4 @@
+#include "ast.h"
 #include "lexer.h"
 #include "parser.h"
 #include <stdio.h>
@@ -53,6 +54,8 @@ void print_ast(AST* node) {
         print_ast(node->left);
 
         switch (node->type) {
+        case AST_NUMBER:
+            break;
         case AST_ADD:
             printf(" + ");
             break;
