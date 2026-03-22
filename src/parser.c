@@ -99,11 +99,3 @@ AST* parse() {
 }
 
 void init_parser(const char* text) { init_lexer(text); }
-
-void free_ast(AST* node) {
-    if (node == NULL)
-        return;
-    free_ast(node->left);
-    free_ast(node->right);
-    free(node);
-}

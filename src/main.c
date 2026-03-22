@@ -39,13 +39,15 @@ int main() {
 
     AST* root = parse();
 
-    int result = interpret(root);
+    // int result = interpret(root);
 
     printf("Parsed AST: ");
     print_ast(root);
     printf("\n");
 
-    printf("Result: %d\n", result);
+    // printf("Result: %d\n", result);
+
+    free_ast(root);
 
     return 0;
 }
@@ -56,7 +58,16 @@ void print_ast(AST* node) {
 
     if (node->type == AST_NUMBER)
         printf("%d", node->value);
-    else {
+    else if (node->type == AST_VARIABLE)
+        printf("%s", node->name);
+    else if (node->type == AST_ASSIGNMENT) {
+        printf("(");
+        print_ast(node->left);
+        printf(" = ");
+        print_ast(node->right);
+        printf(")");
+        return;
+    } else {
         printf("(");
         print_ast(node->left);
 

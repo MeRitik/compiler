@@ -31,9 +31,9 @@ int interpret(const AST* node) {
     case AST_VARIABLE:
         return get_variable(node->name);
 
-    case AST_ASSIGN:
+    case AST_ASSIGNMENT:
         int value = interpret(node->right);
-        set_variable(node->name, value);
+        set_variable(node->left->name, value);
         return value;
 
     default:

@@ -1,5 +1,6 @@
-#include <stdlib.h>
 #include "ast.h"
+#include <stdlib.h>
+#include <string.h>
 
 AST* create_number(int value) {
     AST* node = (AST*)malloc(sizeof(AST));
@@ -17,4 +18,33 @@ AST* create_node(ASTNodeType type, AST* left, AST* right) {
     node->left = left;
     node->right = right;
     return node;
+}
+
+AST* create_variable(const char* name) {
+    AST* node = (AST*)malloc(sizeof(AST));
+    node->type = AST_VARIABLE;
+    strcpy(node->name, name);
+
+    node->left = NULL;
+    node->right = NULL;
+
+    return node;
+}
+
+AST* create_assignment(AST* left, AST* right) {
+    AST* node = (AST*)malloc(sizeof(AST));
+    node->type = AST_ASSIGNMENT;
+
+    node->left = left;
+    node->right = right;
+
+    return node;
+}
+
+void free_ast(AST* node) {
+    if (node == NULL)
+        return;
+    free_ast(node->left);
+    free_ast(node->right);
+    free(node);
 }
