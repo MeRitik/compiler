@@ -1,4 +1,5 @@
 #include "ast.h"
+#include "interpreter.h"
 #include "lexer.h"
 #include "parser.h"
 #include <stdio.h>
@@ -38,9 +39,15 @@ int main() {
 
     AST* root = parse();
 
+    int result = interpret(root);
+
     printf("Parsed AST: ");
     print_ast(root);
     printf("\n");
+
+    printf("Result: %d\n", result);
+
+    return 0;
 }
 
 void print_ast(AST* node) {

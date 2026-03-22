@@ -11,6 +11,7 @@ add_executable(compiler
     src/lexer.c
     src/parser.c
     src/ast.c
+    src/interpreter.c
 )
 
 target_include_directories(compiler PRIVATE include)
