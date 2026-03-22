@@ -77,9 +77,25 @@ static AST* expr() {
     return node;
 }
 
+AST* statement() {
+    if (current_token.type == TOKEN_IDENTIFIER) {
+        Token token = current_token;
+        eat(TOKEN_IDENTIFIER);
+
+        if (current_token.type == TOKEN_ASSIGN) {
+            eat(TOKEN_ASSIGN);
+            AST* right = expr();
+            AST* left = create_variable(token.name);
+            return create_assignment(left, right);
+        }
+    }
+
+    return expr();
+}
+
 AST* parse() {
     current_token = get_next_token();
-    return expr();
+    return statement();
 }
 
 void init_parser(const char* text) { init_lexer(text); }

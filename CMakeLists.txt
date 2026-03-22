@@ -12,6 +12,7 @@ add_executable(compiler
     src/parser.c
     src/ast.c
     src/interpreter.c
+    src/symbol_table.c
 )
 
 target_include_directories(compiler PRIVATE include)

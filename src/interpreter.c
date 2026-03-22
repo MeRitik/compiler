@@ -1,4 +1,5 @@
 #include "interpreter.h"
+#include "symbol_table.h"
 #include <stdio.h>
 
 int interpret(const AST* node) {
@@ -26,6 +27,14 @@ int interpret(const AST* node) {
         }
 
         return left / right;
+
+    case AST_VARIABLE:
+        return get_variable(node->name);
+
+    case AST_ASSIGN:
+        int value = interpret(node->right);
+        set_variable(node->name, value);
+        return value;
 
     default:
         fprintf(stderr, "Error: Unknown operator\n");

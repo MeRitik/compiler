@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 const char* input;
 char current_char;
@@ -34,10 +35,32 @@ void init_lexer(const char* input_str) {
     current_char = input[pos];
 }
 
+Token identifier() {
+    char buffer[64];
+    int ind = 0;
+
+    while (isalnum(current_char)) {
+        buffer[ind++] = current_char;
+        advance();
+    }
+
+    buffer[ind] = '\0';
+
+    Token token;
+    token.type = TOKEN_IDENTIFIER;
+    strcpy(token.name, buffer);
+
+    return token;
+}
+
 Token get_next_token() {
     while (current_char != '\0') {
         if (isspace(current_char)) {
             skip_whitespace();
+        }
+
+        if (isalpha(current_char)) {
+            return identifier();
         }
 
         if (isdigit(current_char)) {
@@ -65,6 +88,11 @@ Token get_next_token() {
         if (current_char == '/') {
             advance();
             return (Token){TOKEN_DIV, 0};
+        }
+
+        if (current_char == '=') {
+            advance();
+            return (Token){TOKEN_ASSIGN, 0};
         }
 
         if (current_char == '(') {
