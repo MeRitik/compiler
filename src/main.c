@@ -6,6 +6,30 @@
 
 void print_ast(AST* node);
 
+int main() {
+
+    char input[1024];
+
+    printf("Enter program:\n");
+    fgets(input, sizeof(input), stdin);
+
+    init_parser(input);
+
+    AST* root = parse();
+
+    printf("Parsed AST: ");
+    print_ast(root);
+    printf("\n");
+
+    int result = interpret(root);
+
+    printf("Result: %d\n", result);
+
+    free_ast(root);
+
+    return 0;
+}
+
 const char* token_to_string(TokenType type) {
     switch (type) {
     case TOKEN_NUMBER:
@@ -29,34 +53,14 @@ const char* token_to_string(TokenType type) {
     }
 }
 
-int main() {
-    char input[100];
-
-    printf("Enter expression: ");
-    scanf("%[^\n]", input);
-
-    init_parser(input);
-
-    AST* root = parse();
-
-    // int result = interpret(root);
-
-    printf("Parsed AST: ");
-    print_ast(root);
-    printf("\n");
-
-    // printf("Result: %d\n", result);
-
-    free_ast(root);
-
-    return 0;
-}
-
 void print_ast(AST* node) {
     if (!node)
         return;
-
-    if (node->type == AST_NUMBER)
+    if (node->type == AST_STATEMENT_LIST) {
+        print_ast(node->left);
+        printf("; ");
+        print_ast(node->right);
+    } else if (node->type == AST_NUMBER)
         printf("%d", node->value);
     else if (node->type == AST_VARIABLE)
         printf("%s", node->name);

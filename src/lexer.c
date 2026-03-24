@@ -14,7 +14,7 @@ void advance() {
 }
 
 void skip_whitespace() {
-    while (isspace(current_char)) {
+    while ('\0' != current_char && isspace(current_char)) {
         advance();
     }
 }
@@ -39,7 +39,7 @@ Token identifier() {
     char buffer[64];
     int ind = 0;
 
-    while (isalnum(current_char)) {
+    while (isalnum(current_char) || current_char == '_') {
         buffer[ind++] = current_char;
         advance();
     }
@@ -57,9 +57,10 @@ Token get_next_token() {
     while (current_char != '\0') {
         if (isspace(current_char)) {
             skip_whitespace();
+            continue;
         }
 
-        if (isalpha(current_char)) {
+        if (isalpha(current_char) || current_char == '_') {
             return identifier();
         }
 
@@ -103,6 +104,11 @@ Token get_next_token() {
         if (current_char == ')') {
             advance();
             return (Token){TOKEN_RPAREN, 0};
+        }
+
+        if (current_char == ';') {
+            advance();
+            return (Token){TOKEN_SEMICOLON, 0};
         }
 
         printf("Error: Unknown character '%c'\n", current_char);

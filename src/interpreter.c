@@ -36,6 +36,10 @@ int interpret(const AST* node) {
         set_variable(node->left->name, value);
         return value;
 
+    case AST_STATEMENT_LIST:
+        interpret(node->left);
+        return interpret(node->right);
+
     default:
         fprintf(stderr, "Error: Unknown operator\n");
         return 0;

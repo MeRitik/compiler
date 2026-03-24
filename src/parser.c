@@ -27,6 +27,9 @@ static AST* factor() {
     if (token.type == TOKEN_NUMBER) {
         eat(TOKEN_NUMBER);
         return create_number(token.value);
+    } else if (token.type == TOKEN_IDENTIFIER) {
+        eat(TOKEN_IDENTIFIER);
+        return create_variable(token.name);
     } else if (token.type == TOKEN_LPAREN) {
         eat(TOKEN_LPAREN);
         AST* node = expr();
@@ -93,9 +96,23 @@ AST* statement() {
     return expr();
 }
 
+AST* statement_list() {
+    AST* node = statement();
+
+    while (current_token.type == TOKEN_SEMICOLON) {
+        eat(TOKEN_SEMICOLON);
+        if (current_token.type == TOKEN_EOF) {
+            break;
+        }
+        node = create_node(AST_STATEMENT_LIST, node, statement());
+    }
+
+    return node;
+}
+
 AST* parse() {
     current_token = get_next_token();
-    return statement();
+    return statement_list();
 }
 
 void init_parser(const char* text) { init_lexer(text); }

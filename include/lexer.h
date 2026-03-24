@@ -11,7 +11,8 @@ typedef enum {
     TOKEN_DIV,
     TOKEN_LPAREN,
     TOKEN_RPAREN,
-    TOKEN_EOF
+    TOKEN_EOF,
+    TOKEN_SEMICOLON
 } TokenType;
 
 typedef struct {
