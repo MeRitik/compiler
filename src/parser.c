@@ -120,6 +120,33 @@ AST* statement() {
             AST* right = expr();
             AST* left = create_variable(token.name);
             return create_assignment(left, right);
+        } else {
+            // Not an assignment, handle as comparison/expression
+            AST* left = create_variable(token.name);
+
+            while (current_token.type == TOKEN_GREATER ||
+                   current_token.type == TOKEN_LESSTHAN ||
+                   current_token.type == TOKEN_EQUAL ||
+                   current_token.type == TOKEN_NOT_EQUAL) {
+
+                Token op_token = current_token;
+
+                if (op_token.type == TOKEN_GREATER) {
+                    eat(TOKEN_GREATER);
+                    left = create_node(AST_GREATER, left, expr());
+                } else if (op_token.type == TOKEN_LESSTHAN) {
+                    eat(TOKEN_LESSTHAN);
+                    left = create_node(AST_LESSTHAN, left, expr());
+                } else if (op_token.type == TOKEN_EQUAL) {
+                    eat(TOKEN_EQUAL);
+                    left = create_node(AST_EQUAL, left, expr());
+                } else if (op_token.type == TOKEN_NOT_EQUAL) {
+                    eat(TOKEN_NOT_EQUAL);
+                    left = create_node(AST_NOT_EQUAL, left, expr());
+                }
+            }
+            
+            return left;
         }
     }
 
