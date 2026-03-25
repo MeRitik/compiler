@@ -3,13 +3,19 @@
 
 typedef enum {
     AST_NUMBER,
+    AST_VARIABLE,
+
     AST_ADD,
     AST_SUBTRACT,
     AST_MULTIPLY,
     AST_DIVIDE,
-    AST_VARIABLE,
+
+    AST_GREATER,
+    AST_LESSTHAN,
+    AST_EQUAL,
+    AST_NOT_EQUAL,
+
     AST_ASSIGNMENT,
-    AST_PROGRAM,
     AST_STATEMENT_LIST
 } ASTNodeType;
 

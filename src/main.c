@@ -90,6 +90,18 @@ void print_ast(AST* node) {
         case AST_DIVIDE:
             printf(" / ");
             break;
+        case AST_GREATER:
+            printf(" > ");
+            break;
+        case AST_LESSTHAN:
+            printf(" < ");
+            break;
+        case AST_EQUAL:
+            printf(" == ");
+            break;
+        case AST_NOT_EQUAL:
+            printf(" != ");
+            break;
         }
 
         print_ast(node->right);

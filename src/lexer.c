@@ -111,6 +111,37 @@ Token get_next_token() {
             return (Token){TOKEN_SEMICOLON, 0};
         }
 
+        if (current_char == '>') {
+            advance();
+            return (Token){TOKEN_GREATER, 0};
+        }
+
+        if (current_char == '<') {
+            advance();
+            return (Token){TOKEN_LESSTHAN, 0};
+        }
+
+        if (current_char == '!') {
+            advance();
+            if (current_char == '=') {
+                advance();
+                return (Token){TOKEN_NOT_EQUAL, 0};
+            }
+
+            fprintf(stderr, "Error: Unexpected character '!'\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (current_char == '=') {
+            advance();
+            if (current_char == '=') {
+                advance();
+                return (Token){TOKEN_EQUAL, 0};
+            }
+
+            return (Token){TOKEN_ASSIGN, 0};
+        }
+
         printf("Error: Unknown character '%c'\n", current_char);
         exit(EXIT_FAILURE);
     }

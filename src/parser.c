@@ -10,6 +10,36 @@ static void eat(TokenType type);
 static AST* factor();
 static AST* term();
 static AST* expr();
+static AST* comparison();
+
+AST* comparison() {
+
+    AST* node = expr();
+
+    while (current_token.type == TOKEN_GREATER ||
+           current_token.type == TOKEN_LESSTHAN ||
+           current_token.type == TOKEN_EQUAL ||
+           current_token.type == TOKEN_NOT_EQUAL) {
+
+        Token token = current_token;
+
+        if (token.type == TOKEN_GREATER) {
+            eat(TOKEN_GREATER);
+            node = create_node(AST_GREATER, node, expr());
+        } else if (token.type == TOKEN_LESSTHAN) {
+            eat(TOKEN_LESSTHAN);
+            node = create_node(AST_LESSTHAN, node, expr());
+        } else if (token.type == TOKEN_EQUAL) {
+            eat(TOKEN_EQUAL);
+            node = create_node(AST_EQUAL, node, expr());
+        } else if (token.type == TOKEN_NOT_EQUAL) {
+            eat(TOKEN_NOT_EQUAL);
+            node = create_node(AST_NOT_EQUAL, node, expr());
+        }
+    }
+
+    return node;
+}
 
 static void eat(TokenType type) {
     if (current_token.type == type) {
@@ -93,7 +123,7 @@ AST* statement() {
         }
     }
 
-    return expr();
+    return comparison();
 }
 
 AST* statement_list() {

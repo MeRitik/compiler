@@ -40,6 +40,18 @@ int interpret(const AST* node) {
         interpret(node->left);
         return interpret(node->right);
 
+    case AST_GREATER:
+        return interpret(node->left) > interpret(node->right);
+
+    case AST_LESSTHAN:
+        return interpret(node->left) < interpret(node->right);
+
+    case AST_EQUAL:
+        return interpret(node->left) == interpret(node->right);
+
+    case AST_NOT_EQUAL:
+        return interpret(node->left) != interpret(node->right);
+
     default:
         fprintf(stderr, "Error: Unknown operator\n");
         return 0;
