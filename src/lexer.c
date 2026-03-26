@@ -53,6 +53,19 @@ Token identifier() {
     return token;
 }
 
+Token peek_next_token() {
+
+    int saved_pos = pos;
+    char saved_char = current_char;
+
+    Token token = get_next_token();
+
+    pos = saved_pos;
+    current_char = saved_char;
+
+    return token;
+}
+
 Token get_next_token() {
     while (current_char != '\0') {
         if (isspace(current_char)) {
