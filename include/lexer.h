@@ -21,7 +21,11 @@ typedef enum {
 
     TOKEN_EOF,
 
-    TOKEN_SEMICOLON
+    TOKEN_SEMICOLON,
+
+    TOKEN_IF,
+    TOKEN_LBRACE,
+    TOKEN_RBRACE
 } TokenType;
 
 typedef struct {

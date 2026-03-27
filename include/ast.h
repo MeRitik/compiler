@@ -16,7 +16,9 @@ typedef enum {
     AST_NOT_EQUAL,
 
     AST_ASSIGNMENT,
-    AST_STATEMENT_LIST
+    AST_STATEMENT_LIST,
+
+    AST_IF
 } ASTNodeType;
 
 typedef struct AST {
@@ -32,6 +34,7 @@ AST* create_number(int value);
 AST* create_node(ASTNodeType type, AST* left, AST* right);
 AST* create_variable(const char* name);
 AST* create_assignment(AST* left, AST* value);
+AST* create_if(AST* condition, AST* body);
 
 void free_ast(AST* node);
 

@@ -102,6 +102,13 @@ void print_ast(AST* node) {
         case AST_NOT_EQUAL:
             printf(" != ");
             break;
+        case AST_IF:
+            printf("if(");
+            print_ast(node->left);
+            printf(")[ ");
+            print_ast(node->right);
+            printf(" ]");
+            break;
         }
 
         print_ast(node->right);

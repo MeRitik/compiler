@@ -41,6 +41,15 @@ AST* create_assignment(AST* left, AST* right) {
     return node;
 }
 
+AST* create_if(AST* condition, AST* body) {
+    AST* node = (AST*)malloc(sizeof(AST));
+    node->type = AST_IF;
+    node->left = condition;
+    node->right = body;
+
+    return node;
+}
+
 void free_ast(AST* node) {
     if (node == NULL)
         return;

@@ -39,12 +39,17 @@ Token identifier() {
     char buffer[64];
     int ind = 0;
 
-    while (isalnum(current_char) || current_char == '_') {
+    while (ind < sizeof(buffer) - 1 &&
+           (isalnum(current_char) || current_char == '_')) {
         buffer[ind++] = current_char;
         advance();
     }
 
     buffer[ind] = '\0';
+
+    if (strcmp(buffer, "if") == 0) {
+        return (Token){TOKEN_IF, 0};
+    }
 
     Token token;
     token.type = TOKEN_IDENTIFIER;
@@ -71,6 +76,16 @@ Token get_next_token() {
         if (isspace(current_char)) {
             skip_whitespace();
             continue;
+        }
+
+        if (current_char == '[') {
+            advance();
+            return (Token){TOKEN_LBRACE, 0};
+        }
+
+        if (current_char == ']') {
+            advance();
+            return (Token){TOKEN_RBRACE, 0};
         }
 
         if (isalpha(current_char) || current_char == '_') {

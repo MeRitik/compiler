@@ -62,7 +62,7 @@ static AST* factor() {
         return create_variable(token.name);
     } else if (token.type == TOKEN_LPAREN) {
         eat(TOKEN_LPAREN);
-        AST* node = expr();
+        AST* node = comparison();
         eat(TOKEN_RPAREN);
         return node;
     } else {
@@ -111,6 +111,23 @@ static AST* expr() {
 }
 
 AST* statement() {
+
+    if (current_token.type == TOKEN_IF) {
+
+        eat(TOKEN_IF);
+        eat(TOKEN_LPAREN);
+
+        AST* condition = comparison();
+
+        eat(TOKEN_RPAREN);
+        eat(TOKEN_LBRACE);
+
+        AST* body = statement_list();
+
+        eat(TOKEN_RBRACE);
+
+        return create_if(condition, body);
+    }
 
     if (current_token.type == TOKEN_IDENTIFIER) {
 

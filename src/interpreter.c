@@ -52,6 +52,14 @@ int interpret(const AST* node) {
     case AST_NOT_EQUAL:
         return interpret(node->left) != interpret(node->right);
 
+    case AST_IF: {
+        int condition = interpret(node->left);
+        if (condition) {
+            return interpret(node->right);
+        }
+        return 0;
+    }
+
     default:
         fprintf(stderr, "Error: Unknown operator\n");
         return 0;
