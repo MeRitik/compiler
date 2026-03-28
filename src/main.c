@@ -71,6 +71,13 @@ void print_ast(AST* node) {
         print_ast(node->right);
         printf(")");
         return;
+    } else if (node->type == AST_IF) {
+        printf("if(");
+        print_ast(node->left);
+        printf("){ ");
+        print_ast(node->right);
+        printf(" }");
+        return;
     } else {
         printf("(");
         print_ast(node->left);
@@ -103,11 +110,6 @@ void print_ast(AST* node) {
             printf(" != ");
             break;
         case AST_IF:
-            printf("if(");
-            print_ast(node->left);
-            printf(")[ ");
-            print_ast(node->right);
-            printf(" ]");
             break;
         }
 

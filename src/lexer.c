@@ -78,12 +78,12 @@ Token get_next_token() {
             continue;
         }
 
-        if (current_char == '[') {
+        if (current_char == '{') {
             advance();
             return (Token){TOKEN_LBRACE, 0};
         }
 
-        if (current_char == ']') {
+        if (current_char == '}') {
             advance();
             return (Token){TOKEN_RBRACE, 0};
         }
@@ -117,11 +117,6 @@ Token get_next_token() {
         if (current_char == '/') {
             advance();
             return (Token){TOKEN_DIV, 0};
-        }
-
-        if (current_char == '=') {
-            advance();
-            return (Token){TOKEN_ASSIGN, 0};
         }
 
         if (current_char == '(') {

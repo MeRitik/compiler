@@ -156,7 +156,8 @@ AST* statement_list() {
 
     while (current_token.type == TOKEN_SEMICOLON) {
         eat(TOKEN_SEMICOLON);
-        if (current_token.type == TOKEN_EOF) {
+        if (current_token.type == TOKEN_EOF ||
+            current_token.type == TOKEN_RBRACE) {
             break;
         }
         node = create_node(AST_STATEMENT_LIST, node, statement());
